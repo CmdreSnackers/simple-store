@@ -1,12 +1,19 @@
 <?php
 //require the header
 session_start();
+if(!isset($_SESSION['signup_csrf_token'])) {
+  $_SESSION['signup_csrf_token'] = bin2hex(random_bytes(32));
+}
 
 require 'includes/functions.php';
 require 'includes/class-authentication.php';
 
 //process sign up
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if($_POST['signup_csrf_token'] !== $_SESSION['signup_csrf_token']){
+    die("You Lose");
+  }
+
   $email = $_POST["email"];
   $password = $_POST["password"];
   $confirm = $_POST["confirm"];
@@ -69,6 +76,10 @@ require 'parts/header.php'
                   Sign Up
                 </button>
               </div>
+              <input type="hidden"
+              name="signup_csrf_token"
+              value="<?php echo $_SESSION['signup_csrf_token']; ?>"
+              >
             </form>
           </div>
         </div>

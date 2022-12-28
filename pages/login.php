@@ -2,11 +2,28 @@
 //require the header
 session_start();
 
+//if not set gen new token
+//when token is gen won't regen later
+if(!isset($_SESSION['login_csrf_token'])) {
+  //gen token
+  $_SESSION['login_csrf_token'] = bin2hex(random_bytes(32));
+}
+  
+
 require 'includes/functions.php';
 require 'includes/class-authentication.php';
 
 // process login
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+  //check token
+  // var_dump($_POST['login_csrf_token']);
+  // var_dump($_SESSION['login_csrf_token']);
+
+//verify correct csrf token
+  if($_POST['login_csrf_token'] !== $_SESSION['login_csrf_token']){
+    die("You Lose");
+  }
+
   $email = $_POST["email"];
   $password = $_POST["password"];
 
@@ -54,6 +71,10 @@ require 'parts/header.php'
                   Login
                 </button>
               </div>
+              <input type="hidden"
+              name="login_csrf_token"
+              value="<?php echo $_SESSION['login_csrf_token']; ?>"
+              >
             </form>
           </div>
         </div>
