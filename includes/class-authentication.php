@@ -50,6 +50,8 @@ class authentication
                     'email' => $user['email']
                 ];
 
+                unset($_SESSION['login_csrf_token']);
+
                 // redirect user back to index
                 header('Location: /');
                 exit;
