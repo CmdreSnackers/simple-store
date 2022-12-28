@@ -5,7 +5,7 @@ $path = $_SERVER["REQUEST_URI"];
 $path = trim($path, '/');
 //remove all url ? parameters
 $path = parse_url($path, PHP_URL_PATH);
-var_dump($path);
+
 
 switch ($path) {
   case 'login':
