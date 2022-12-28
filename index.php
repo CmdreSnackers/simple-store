@@ -1,20 +1,21 @@
 <?php
 $path = $_SERVER["REQUEST_URI"];
-// var_dump($_SERVER["REQUEST_URI"]);
+$path = trim($path, '/');
+
 switch ($path) {
-  case '/login':
+  case 'login':
     require "pages/login.php";
     break;
-  case '/signup[':
+  case 'signup':
     require "pages/signup.php";
     break;
-  case '/cart':
+  case 'cart':
     require "pages/cart.php";
     break;
-  case '/orders':
+  case 'orders':
     require "pages/orders.php";
     break;
-  case '/logout':
+  case 'logout':
     require "pages/logout.php";
     break;
   default:

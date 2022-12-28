@@ -17,10 +17,10 @@ class authentication
         if ( 
             empty( $email ) || 
             empty( $password )
-        ) 
-        {
+        ) {
             $error = 'All fields are required.';
         }
+
 
         if ( !empty( $error ) )
             return $error;
@@ -70,10 +70,10 @@ class authentication
 
         if(empty($email) || 
         empty($password) || 
-        empty($confirm))
-        {
+        empty($confirm)) {
             $error = 'Must fill all fields';
         }
+
 
         // check to make sure confirm is the same as password
         if(

@@ -54,14 +54,14 @@ require 'parts/header.php'
                 />
               </div>
               <div class="mb-3">
-                <label for="confirm_password" class="form-label"
+                <label for="confirm" class="form-label"
                   >Confirm Password</label
                 >
                 <input
                   type="password"
                   class="form-control"
-                  id="confirm_password"
-                  name="confirm_password"
+                  id="confirm"
+                  name="confirm"
                 />
               </div>
               <div class="d-grid">

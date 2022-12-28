@@ -11,10 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   $password = $_POST["password"];
 
   $auth = new authentication();
-  $error = $auth->signup(
+  $error = $auth->login(
     $email,
-    $password,
-    $confirm
+    $password
   );
 }
 
