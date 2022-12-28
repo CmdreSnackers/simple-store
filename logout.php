@@ -7,9 +7,9 @@ if(islogged()) {
     // delete the user session data
     logout();
     // redirect user back to login
-    header('Location: /login.php');
+    header('Location: //login');
     exit;
 } else {
-    header('Location: /login.php');
+    header('Location: //login');
     exit;
 }

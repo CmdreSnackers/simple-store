@@ -78,10 +78,10 @@ require 'parts/header.php'
           class="d-flex justify-content-between align-items-center gap-3 mx-auto pt-3"
           style="max-width: 500px;"
         >
-          <a href="index.php" class="text-decoration-none small"
+          <a href="/" class="text-decoration-none small"
             ><i class="bi bi-arrow-left-circle"></i> Go back</a
           >
-          <a href="login.php" class="text-decoration-none small"
+          <a href="/login" class="text-decoration-none small"
             >Already have an account? Login here
             <i class="bi bi-arrow-right-circle"></i
           ></a>
@@ -91,12 +91,12 @@ require 'parts/header.php'
       <!-- footer -->
       <div class="d-flex justify-content-between align-items-center pt-4 pb-2">
         <div class="text-muted small">
-          © 2022 <a href="index.php" class="text-muted">My Store</a>
+          © 2022 <a href="/" class="text-muted">My Store</a>
         </div>
         <div class="d-flex align-items-center gap-3">
-          <a href="login.php" class="btn btn-light btn-sm">Login</a>
-          <a href="signup.php" class="btn btn-light btn-sm">Sign Up</a>
-          <a href="orders.php" class="btn btn-light btn-sm">My Orders</a>
+          <a href="/login" class="btn btn-light btn-sm">Login</a>
+          <a href="/signup" class="btn btn-light btn-sm">Sign Up</a>
+          <a href="/orders" class="btn btn-light btn-sm">My Orders</a>
         </div>
       </div>
     </div>
