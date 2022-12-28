@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   if($_POST['login_csrf_token'] !== $_SESSION['login_csrf_token']){
     die("You Lose");
   }
+  unset($_SESSION['login_csrf_token']);
 
   $email = $_POST["email"];
   $password = $_POST["password"];
