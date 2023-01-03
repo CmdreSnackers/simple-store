@@ -3,7 +3,12 @@
 session_start();
 
 require 'includes/functions.php';
+require 'includes/class-products.php';
+// call products
+$products = new Products();
 
+//list out products
+$products_list = $products->listAllProducts();
 
 
 
@@ -22,92 +27,29 @@ require 'parts/header.php';
 
         <!-- products -->
         <div class="row row-cols-1 row-cols-md-3 g-4">
+          <?php foreach($products_list as $product): ?>
           <div class="col">
             <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-1_large.png?format=webp&v=1530129292"
-                class="card-img-top"
-                alt="Product 1"
-              />
+              <img src="<?php echo $product['image_url']; ?>" class="card-img" alt="">
               <div class="card-body text-center">
-                <h5 class="card-title">Product 1</h5>
-                <p class="card-text">$50</p>
-                <button class="btn btn-primary">Add to cart</button>
+                <h5 class="card-title"><?php echo $product['name']; ?></h5>
+                <p class="card-text">$<?php echo $product['price'] ?></p>
+                <!-- when clicked go to cart page -->
+                
+                <form action="/cart" method="POST">
+                  <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
+                  <button class="btn btn-primary">Add to cart</button>
+                </form>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-2_large.png?format=webp&v=1530129318"
-                class="card-img-top"
-                alt="Product 2"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 2</h5>
-                <p class="card-text">$30</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-3_large.png?format=webp&v=1530129341"
-                class="card-img-top"
-                alt="Product 3"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 3</h5>
-                <p class="card-text">$20</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-4_large.png?format=webp&v=1530129292"
-                class="card-img-top"
-                alt="Product 4"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 4</h5>
-                <p class="card-text">$40</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-5_large.png?format=webp&v=1530129318"
-                class="card-img-top"
-                alt="Product 5"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 5</h5>
-                <p class="card-text">$35</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129341"
-                class="card-img-top"
-                alt="Product 6"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 6</h5>
-                <p class="card-text">$26</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
+          <?php endforeach;?>
         </div>
       </div>
+
+
+
+
 
       <!-- footer -->
       <div class="d-flex justify-content-between align-items-center pt-4 pb-2">

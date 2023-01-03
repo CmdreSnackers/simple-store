@@ -3,6 +3,33 @@
 session_start();
 
 require 'includes/functions.php';
+require 'includes/class-products.php';
+require 'includes/class-cart.php';
+
+
+$cart = new Cart();
+
+// make sure it's POST request
+if ( $_SERVER["REQUEST_METHOD"] == 'POST' ) {
+
+    //if$_post action is remove then trigger function
+    if(isset($_POST['action']) && $_POST['action'] =='remove' )
+    {
+        //remove from cart
+        $cart->removeProductFromCart($_POST['product_id']);
+    } else {
+        // make sure product_id is available in $_POST
+        if ( isset( $_POST['product_id'] ) ) 
+        {
+            // add product_id into cart
+            $cart->add( $_POST['product_id'] );
+        }
+    }
+}
+
+
+
+
 
 require 'parts/header.php'
 ?>
@@ -27,31 +54,28 @@ require 'parts/header.php'
                         </tr>
                     </thead>
                     <tbody>
+                    <?php foreach($cart->listAllProductsinCart() as $product): ?>
                         <tr>
-                            <td>Product 1</td>
-                            <td>$50</td>
-                            <td>2</td>
-                            <td>$100</td>
+                            <td><?php echo $product['name']; ?></td>
+                            <td>$<?php echo $product['price']; ?></td>
+                            <td><?php echo $product['quantity'];?></td>
+                            <td><?php echo $product['total']; ?></td>
                             <td>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
+                                    <!-- specify as remove -->
+                                    <input type="hidden" name="action" value="remove">
+                                    <!-- specify item to be removed -->
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id'];?>">
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Product 2</td>
-                            <td>$30</td>
-                            <td>1</td>
-                            <td>$30</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                    <?php endforeach;?>
                         <tr>
                             <td colspan="3" class="text-end">Total</td>
-                            <td>$130</td>
+                            <td>$<?php echo $cart->total();?></td>
                             <td></td>
                         </tr>
                     </tbody>
