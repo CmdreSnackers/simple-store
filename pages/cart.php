@@ -54,6 +54,13 @@ require 'parts/header.php'
                         </tr>
                     </thead>
                     <tbody>
+                    <?php if (empty($cart->listAllProductsinCart())):?>
+                        <tr>
+                            <td colspan="5">
+                                Your cart is empty.
+                            </td>
+                        </tr>
+                    <?php else:?>
                     <?php foreach($cart->listAllProductsinCart() as $product): ?>
                         <tr>
                             <td><?php echo $product['name']; ?></td>
@@ -78,12 +85,19 @@ require 'parts/header.php'
                             <td>$<?php echo $cart->total();?></td>
                             <td></td>
                         </tr>
+                    <?php endif;?> <!-- end -empty -->
                     </tbody>
                 </table>
 
                 <div class="d-flex justify-content-between align-items-center my-3">
                     <a href="/" class="btn btn-light btn-sm">Continue Shopping</a>
-                    <button class="btn btn-primary">Checkout</a>
+                    <!-- only show Checkout if item in cart -->
+                    <?php if(!empty($cart->listAllProductsinCart())): ?>
+                        <form action="/checkout" method="POST">
+                            <input type="hidden" name="" value="">
+                            <button class="btn btn-primary">Checkout</a>
+                        </form>
+                    <?php endif;?>
                 </div>
 
             </div>

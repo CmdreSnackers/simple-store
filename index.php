@@ -23,6 +23,9 @@ switch ($path) {
   case 'logout':
     require "pages/logout.php";
     break;
+  case 'checkout':
+    require "pages/checkout.php";
+    break;
   default:
     require "pages/home.php";
     break;
