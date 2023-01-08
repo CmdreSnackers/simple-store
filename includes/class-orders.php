@@ -53,7 +53,62 @@ class Orders
             ]);
         }
 
+        //step 4 create bill url
+        $bill_url = '';
 
+        //create bill in billplz using api
+            //call api to get response data
+        $response = callAPI(
+            BILLPLZ_API_URL . 'v3/bills', // https://www.billplz-sandbox.com/api/v3/bills
+            'POST',
+            [
+                'collection_id' => BILLPLZ_COLLECTION_ID,
+                'email' => $_SESSION['user']['email'],
+                'name' => $_SESSION['user']['email'],
+                'amount' => $total_amount * 100,
+                'callback_url' => 'http://simple-store.local/payment-callback',
+                'description' => 'Order #' . $order_id, //order#
+                'redirect_url' => 'http://simple-store.local/payment-verification'
+            ],
+            [
+                'Content-Type: application/json',
+                'Authorization: Basic ' . base64_encode(BILLPLZ_API_KEY . ':')
+            ]
+        );
+
+        //step 5 if response is sucessful, update order with bill id($response->id)
+        if(isset($response->id)) {
+            $statement = $this->database->prepare(
+                'UPDATE orders SET transaction_id = :transaction_id
+                WHERE id = :order_id'
+            );
+            $statement->execute([
+                'transaction_id' => $response->id,
+                'order_id' => $order_id
+            ]);
+        }
+
+        //step 6 set bill_url
+        if(isset($response->url)) {
+            $bill_url = $response->url;
+        }
+
+
+        return $bill_url;
+    }
+
+    //update order
+    public function updateOrder($transaction_id, $status)
+    {
+        //update order status using billplz id that was stored as transaction id in db
+        $statement = $this->database->prepare(
+            'UPDATE orders SET status = :status WHERE transaction_id = :transaction_id'
+        );
+
+        $statement->execute([
+            'status' => $status,
+            'transaction_id' => $transaction_id
+        ]);
     }
 
 
@@ -62,7 +117,8 @@ class Orders
     {
         // load the order data based on given user_id
         $statement = $this->database->prepare(
-            'SELECT * FROM orders WHERE user_id = :user_id'
+            'SELECT * FROM orders WHERE user_id = :user_id
+            ORDER BY id DESC'
         );
 
         $statement->execute([

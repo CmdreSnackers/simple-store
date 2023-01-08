@@ -2,6 +2,7 @@
 
     session_start();
 
+    require 'config.php';
     require 'includes/functions.php';
     require 'includes/class-products.php';
     require 'includes/class-orders.php';
@@ -28,15 +29,26 @@
             $cart = new Cart();
 
             // create new order
-            $orders->createNewOrder(
+            $bill_url = $orders->createNewOrder(
                 $_SESSION['user']['id'], // $user_id
                 $cart->total(), // $total_amount
                 $_SESSION['cart'] // $products_in_cart
             );
 
+            //empty cart
+            $cart->emptyCart();
+
+            //make sure bill url is valid
+            if ( isset( $bill_url ) && !empty( $bill_url ) ) {
+                header( 'Location: ' . $bill_url );
+                exit;
+            } else {
+                $error = 'missing bill url';
+            }
+
             // redirect to orders page
-            header('Location: /orders');
-            exit;
+            // header('Location: /orders');
+            // exit;
         }
 
     }

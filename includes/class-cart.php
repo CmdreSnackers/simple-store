@@ -9,6 +9,7 @@ class Cart
 
     public function listAllProductsinCart()
     {
+        $list = [];
         //check cart if empty
         if(isset($_SESSION['cart'])) {
             foreach($_SESSION['cart'] as $product_id => $quantity) {
@@ -82,5 +83,11 @@ class Cart
             //unset it
             unset($_SESSION['cart'][$product_id]);
         }
+    }
+
+    // empty the cart
+    public function emptyCart()
+    {
+        unset($_SESSION['cart']);
     }
 }

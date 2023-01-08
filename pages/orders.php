@@ -18,7 +18,7 @@ $user_id = $_SESSION['user']['id'];
 
 
 
-var_dump($orders->listOrders($user_id));
+// var_dump($orders->listOrders($user_id));
 
 require 'parts/header.php'
 ?>
@@ -47,7 +47,6 @@ require 'parts/header.php'
               <td>
                 <ul class="list-unstyled">
                 <?php foreach($orders->listProductsOrder($order['id']) as $product ): ?>
-                  <?php var_dump($product);?>
                   <li><?php echo $product['name']; ?>
                   [<?php echo $product['quantity'] ?>]
                   </li>
